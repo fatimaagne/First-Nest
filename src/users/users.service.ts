@@ -10,10 +10,6 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(private databaseService: DatabaseService) {}
 
-  // async create(createUserDto: Prisma.UserCreateInput) {
-  //   const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-  //   return this.databaseService.user.create({ data: { ...createUserDto, password: hashedPassword } });
-  // }
   async create(createUserDto: Prisma.UserCreateInput) {
     const existingUser = await this.databaseService.user.findUnique({
       where: { username: createUserDto.username },

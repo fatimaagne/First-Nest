@@ -1,0 +1,17 @@
+/* eslint-disable prettier/prettier */
+import { PassportStrategy } from "@nestjs/passport";
+import { Strategy, ExtractJwt } from "passport-jwt";
+
+export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
+  constructor() {
+    super({
+      jwtFromRequest: ExtractJwt.fromBodyField("refresh"),
+      ignoreExpiration: false,
+      secretOrKey: `${process.env.jwt_secret}`,
+    });
+  }
+
+  async validate(payload: any) {
+    return { userId: payload.sub, username: payload.username };
+  }
+}
